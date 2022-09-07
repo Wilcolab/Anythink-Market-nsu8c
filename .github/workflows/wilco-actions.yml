@@ -1,44 +1,29 @@
-on: [pull_request]
+name: Lint
+
+on: push
 
 jobs:
-  wilco:
+  run-linters:
+    name: Run linters
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-    name: Pr checks
 
     steps:
-      - name: Check out project
+      - name: Check out Git repository
         uses: actions/checkout@v2
 
-      - name: Use Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: "16"
+          node-version: 12
 
-      - name: Start MongoDB
-        uses: supercharge/mongodb-github-action@1.6.0
-        with:
-          mongodb-version: "4.4"
+      # ESLint and Prettier must be in `package.json`
+      - name: Install Node.js dependencies
+        run: npm install
 
-      - name: Wilco checks
-        id: Wilco
-        uses: trywilco/actions@main
+      - name: Run linters
+        uses: wearerequired/lint-action@v1
         with:
-          owner: ${{ github.repository_owner }}
-  Lint:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    defaults:
-      run:
-        working-directory: frontend
-    steps:
-      - name: Check out project
-        uses: actions/checkout@v0.5.0
-
-      - name: Lint code
-        uses: actions/setup-node@v1
-        with:
-          node-version: "16"
-          cache: "yarn"
-      - run: yarn install
-      - run: yarn lint
+          github_token: ${{ secrets.github_token }}
+          # Enable linters
+          eslint: true
+          prettier: true

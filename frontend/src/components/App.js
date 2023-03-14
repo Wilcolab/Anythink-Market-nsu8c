@@ -38,7 +38,7 @@ class App extends React.Component {
       this.props.onRedirect();
     }
   }
-
+//temp
   componentWillMount() {
     const token = window.localStorage.getItem("jwt");
     if (token) {

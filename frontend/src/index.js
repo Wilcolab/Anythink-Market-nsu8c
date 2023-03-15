@@ -8,14 +8,17 @@ import { Route, Switch } from "react-router-dom";
 import { ConnectedRouter } from "react-router-redux";
 import { ThemeProvider } from "styled-components";
 import App from "./components/App";
+import GlobalStyle from '../src/styles/GlobalStyle';
 
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <ThemeProvider>
+      <GlobalStyle>
       <Switch>
         <Route path="/" component={App} />
       </Switch>
+      </GlobalStyle>
       </ThemeProvider>
     </ConnectedRouter>
   </Provider>,
